@@ -109,7 +109,7 @@ const VoiceAgent: React.FC = () => {
       
       {/* Overlay for inactive state - doesn't cover controls */}
       {!isActive && (
-        <div className="absolute inset-0 bg-background/50 backdrop-blur-sm z-20 flex items-center justify-center pointer-events-none">
+        <div className="absolute inset-0 bg-background/30 z-20 flex items-center justify-center pointer-events-none">
           <div className="text-center pointer-events-none">
             <p className="text-lg font-mono font-semibold mb-2">Agent Inactive</p>
             <p className="text-sm font-mono text-muted-foreground">

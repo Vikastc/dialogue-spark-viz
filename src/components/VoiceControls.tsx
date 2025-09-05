@@ -30,8 +30,10 @@ const VoiceControls: React.FC<VoiceControlsProps> = ({
         className={cn(
           'nothing-button h-12 px-6',
           'transition-all duration-200',
-          isListening && 'animate-pulse'
+          isListening && 'animate-pulse',
+          !isActive && 'bg-background border-2'
         )}
+        disabled={!isActive}
       >
         {isListening ? (
           <>
@@ -48,12 +50,13 @@ const VoiceControls: React.FC<VoiceControlsProps> = ({
       
       {/* Toggle active state */}
       <Button
-        variant="ghost"
+        variant={isActive ? "ghost" : "default"}
         size="sm"
         onClick={onToggleActive}
         className={cn(
           'nothing-button h-8 px-3 text-xs',
-          !isActive && 'text-muted-foreground'
+          'bg-background border shadow-sm',
+          isActive ? 'text-muted-foreground' : 'text-foreground font-semibold'
         )}
       >
         {isActive ? (
@@ -64,7 +67,7 @@ const VoiceControls: React.FC<VoiceControlsProps> = ({
         ) : (
           <>
             <MicOff className="w-3 h-3 mr-1" />
-            Inactive
+            Reactivate
           </>
         )}
       </Button>

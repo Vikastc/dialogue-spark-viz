@@ -21,7 +21,7 @@ const VoiceControls: React.FC<VoiceControlsProps> = ({
   className
 }) => {
   return (
-    <div className={cn('flex items-center gap-4', className)}>
+    <div className={cn('flex items-center gap-3', className)}>
       {/* Main voice button */}
       <Button
         variant={isListening ? "destructive" : isActive ? "default" : "outline"}
@@ -31,7 +31,7 @@ const VoiceControls: React.FC<VoiceControlsProps> = ({
           'nothing-button h-12 px-6',
           'transition-all duration-200',
           isListening && 'animate-pulse',
-          !isActive && 'bg-background border-2'
+          !isActive && 'bg-background border-2 opacity-50'
         )}
         disabled={!isActive}
       >
@@ -48,25 +48,24 @@ const VoiceControls: React.FC<VoiceControlsProps> = ({
         )}
       </Button>
       
-      {/* Toggle active state */}
+      {/* Toggle active state - now matches talk button */}
       <Button
-        variant={isActive ? "ghost" : "default"}
-        size="sm"
+        variant={!isActive ? "default" : "outline"}
+        size="lg"
         onClick={onToggleActive}
         className={cn(
-          'nothing-button h-8 px-3 text-xs',
-          'bg-background border shadow-sm',
-          isActive ? 'text-muted-foreground' : 'text-foreground font-semibold'
+          'nothing-button h-12 px-6',
+          'transition-all duration-200'
         )}
       >
         {isActive ? (
           <>
-            <Mic className="w-3 h-3 mr-1" />
+            <Mic className="w-4 h-4 mr-2" />
             Active
           </>
         ) : (
           <>
-            <MicOff className="w-3 h-3 mr-1" />
+            <MicOff className="w-4 h-4 mr-2" />
             Reactivate
           </>
         )}

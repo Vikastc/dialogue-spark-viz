@@ -88,7 +88,7 @@ const VoiceAgent: React.FC = () => {
           {/* Status indicator */}
           <div className="text-center">
             <p className="text-xs font-mono uppercase tracking-widest text-muted-foreground">
-              Status: {isListening ? 'Listening' : isActive ? 'Ready' : 'Inactive'}
+              Status: {isListening ? 'Listening' : isActive ? 'Ready' : 'Inactive - Use Reactivate Button'}
             </p>
           </div>
         </div>
@@ -107,16 +107,9 @@ const VoiceAgent: React.FC = () => {
         </div>
       </div>
       
-      {/* Overlay for inactive state - doesn't cover controls */}
+      {/* Subtle overlay for inactive state */}
       {!isActive && (
-        <div className="absolute inset-0 bg-background/30 z-20 flex items-center justify-center pointer-events-none">
-          <div className="text-center pointer-events-none">
-            <p className="text-lg font-mono font-semibold mb-2">Agent Inactive</p>
-            <p className="text-sm font-mono text-muted-foreground">
-              Use controls above to reactivate
-            </p>
-          </div>
-        </div>
+        <div className="absolute inset-0 bg-background/20 z-20 pointer-events-none" />
       )}
     </div>
   );

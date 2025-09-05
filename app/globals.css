@@ -1,0 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Reuse existing global styles */
+@import url("../src/index.css");
+@import url("../src/App.css");

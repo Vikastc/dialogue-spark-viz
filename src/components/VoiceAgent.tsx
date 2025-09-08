@@ -12,7 +12,7 @@ import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import axios from "axios";
 import { RealtimeSession } from "@openai/agents-realtime";
-import agent from "@/agents/gf";
+import agent from "@/agents/experience";
 
 interface Message {
   id: string;

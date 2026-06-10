@@ -50,6 +50,8 @@ OPENAI_API_KEY=your_openai_api_key
 
 Use the exact variable name `OPENAI_API_KEY`. Do not expose it with a `NEXT_PUBLIC_` prefix.
 
+The app uses `gpt-realtime-mini` by default. Change `REALTIME_MODEL` in `src/lib/realtimeConfig.ts` if you want to use another realtime voice model your OpenAI account has access to, such as `gpt-realtime-2`.
+
 After changing environment variables or build settings, redeploy the latest production deployment.
 
 ## Important Files

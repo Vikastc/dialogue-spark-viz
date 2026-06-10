@@ -1,4 +1,5 @@
 import axios from "axios";
+import { REALTIME_MODEL } from "@/lib/realtimeConfig";
 
 export async function GET() {
   try {
@@ -8,7 +9,7 @@ export async function GET() {
         expires_after: { anchor: "created_at", seconds: 600 },
         session: {
           type: "realtime",
-          model: "gpt-4o-mini-realtime-preview",
+          model: REALTIME_MODEL,
         },
       },
       {

@@ -6,6 +6,10 @@ import Providers from "./providers";
 export const metadata: Metadata = {
   title: "Dialogue Spark Viz",
   description: "AI Voice Agent",
+  icons: {
+    icon: "/favicon.svg",
+    shortcut: "/favicon.svg",
+  },
 };
 
 export default function RootLayout({

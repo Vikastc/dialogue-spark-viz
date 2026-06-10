@@ -13,6 +13,7 @@ import { cn } from "@/lib/utils";
 import axios from "axios";
 import { RealtimeSession } from "@openai/agents-realtime";
 import agent from "@/agents/experience";
+import { REALTIME_MODEL } from "@/lib/realtimeConfig";
 
 interface Message {
   id: string;
@@ -237,7 +238,7 @@ const VoiceAgent: React.FC = () => {
       const tempKey: string = response.data?.tempKey;
 
       const session = new RealtimeSession(agent, {
-        model: "gpt-4o-mini-realtime-preview",
+        model: REALTIME_MODEL,
       });
 
       await session.connect({ apiKey: tempKey });

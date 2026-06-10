@@ -1,73 +1,60 @@
-# Welcome to your Lovable project
+# Dialogue Spark Viz
 
-## Project info
+AI voice agent built with Next.js, React, shadcn-ui, Tailwind CSS, and the OpenAI Realtime Agents SDK.
 
-**URL**: https://lovable.dev/projects/c7fe3040-ed5c-4a79-988f-37e8ede913e9
+## Local Development
 
-## How can I edit this code?
-
-There are several ways of editing your application.
-
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/c7fe3040-ed5c-4a79-988f-37e8ede913e9) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
+1. Install dependencies:
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+npm install
+```
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+2. Create a local environment file:
 
-# Step 3: Install the necessary dependencies.
-npm i
+```sh
+cp .env.example .env.local
+```
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+3. Add your OpenAI API key to `.env.local`:
+
+```txt
+OPENAI_API_KEY=your_openai_api_key
+```
+
+4. Start the dev server:
+
+```sh
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+The app runs locally at `http://localhost:8080`.
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## Vercel Deployment
 
-**Use GitHub Codespaces**
+This project should be deployed as a Next.js application.
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+Use these Vercel project settings:
 
-## What technologies are used for this project?
+- Framework Preset: `Next.js`
+- Install Command: `npm install`
+- Build Command: `npm run build`
+- Output Directory: leave empty/default
+- Root Directory: project root
 
-This project is built with:
+Add this environment variable in Vercel under `Project -> Settings -> Environment Variables`:
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+```txt
+OPENAI_API_KEY=your_openai_api_key
+```
 
-## How can I deploy this project?
+Use the exact variable name `OPENAI_API_KEY`. Do not expose it with a `NEXT_PUBLIC_` prefix.
 
-Simply open [Lovable](https://lovable.dev/projects/c7fe3040-ed5c-4a79-988f-37e8ede913e9) and click on Share -> Publish.
+After changing environment variables or build settings, redeploy the latest production deployment.
 
-## Can I connect a custom domain to my Lovable project?
+## Important Files
 
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+- `app/page.tsx`: renders the voice agent page.
+- `app/api/route.ts`: creates short-lived OpenAI realtime client secrets on the server.
+- `src/components/VoiceAgent.tsx`: browser voice-session UI and realtime session connection.
+- `src/contexts/AuthContext.tsx`: local demo authentication and usage limits.

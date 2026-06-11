@@ -6,6 +6,7 @@ import ConversationDisplay from "./ConversationDisplay";
 import LoginModal from "./LoginModal";
 import UsageLimitModal from "./UsageLimitModal";
 import AdminPanel from "./AdminPanel";
+import OpenAIKeyModal from "./OpenAIKeyModal";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import { useRouter } from "next/navigation";
@@ -47,6 +48,8 @@ const VoiceAgent: React.FC = () => {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showUsageLimitModal, setShowUsageLimitModal] = useState(false);
   const [showAdminPanel, setShowAdminPanel] = useState(false);
+  const [showOpenAIKeyModal, setShowOpenAIKeyModal] = useState(false);
+  const [openAIKey, setOpenAIKey] = useState("");
   const [sessionStarted, setSessionStarted] = useState(false);
   const [micStream, setMicStream] = useState<MediaStream | null>(null);
   const [tokenCount, setTokenCount] = useState(0);
@@ -204,7 +207,7 @@ const VoiceAgent: React.FC = () => {
     };
   }, [micStream]);
 
-  const handleStartListening = useCallback(async () => {
+  const handleStartListening = useCallback(async (keyOverride?: string) => {
     if (!isActive) return;
 
     // Check authentication
@@ -216,6 +219,15 @@ const VoiceAgent: React.FC = () => {
     // Check if user should be blocked
     if (shouldBlockUser()) {
       setShowUsageLimitModal(true);
+      return;
+    }
+
+    // Require OpenAI API key
+    // Guard: only treat keyOverride as a key if it's actually a plain string
+    // (onClick passes a SyntheticEvent which would cause circular JSON errors)
+    const resolvedKey = typeof keyOverride === "string" ? keyOverride : openAIKey;
+    if (!resolvedKey) {
+      setShowOpenAIKeyModal(true);
       return;
     }
 
@@ -234,7 +246,10 @@ const VoiceAgent: React.FC = () => {
         console.log(`   Current token count: 0/${TOKEN_LIMIT}`);
       }
 
-      const response = await axios.get("/api");
+      const response = await axios.post("/api", { apiKey: resolvedKey });
+      if (response.data?.error) {
+        throw new Error(response.data.error);
+      }
       const tempKey: string = response.data?.tempKey;
 
       const session = new RealtimeSession(agent, {
@@ -332,10 +347,25 @@ const VoiceAgent: React.FC = () => {
     isActive,
     isAuthenticated,
     shouldBlockUser,
+    openAIKey,
     sessionStarted,
     startSession,
     incrementUsage,
   ]);
+
+  const handleOpenAIKeySubmit = useCallback(
+    (key: string) => {
+      setOpenAIKey(key);
+      setShowOpenAIKeyModal(false);
+      // Continue starting the session with the provided key
+      handleStartListening(key);
+    },
+    [handleStartListening]
+  );
+
+  const handleOpenAIKeyCancel = useCallback(() => {
+    setShowOpenAIKeyModal(false);
+  }, []);
 
   const handleToggleActive = useCallback(() => {
     setIsActive((prev) => !prev);
@@ -455,6 +485,12 @@ const VoiceAgent: React.FC = () => {
 
       {/* Modals */}
       <LoginModal isOpen={showLoginModal} onLogin={handleLogin} />
+
+      <OpenAIKeyModal
+        isOpen={showOpenAIKeyModal}
+        onSubmit={handleOpenAIKeySubmit}
+        onCancel={handleOpenAIKeyCancel}
+      />
 
       <UsageLimitModal
         isOpen={showUsageLimitModal}
